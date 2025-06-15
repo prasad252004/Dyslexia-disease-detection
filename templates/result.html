@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dyslexia Detection | Results</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="logo-container">
+                <i class="fas fa-brain logo-icon"></i>
+                <h1 class="logo-text">Dyslexia<span>Detect</span></h1>
+            </div>
+        </header>
+
+        <main class="result-container">
+            <div class="result-card">
+                <div class="result-header">
+                    <h2>Analysis Results</h2>
+                    <p>Detailed findings from your handwriting sample</p>
+                </div>
+                
+                <div class="result-content">
+                    <div class="image-preview">
+                        {% if image_url %}
+                            <img src="{{ url_for('static', filename=image_url) }}" alt="Uploaded Image">
+                        {% endif %}
+                    </div>
+                    
+                    <div class="result-details">
+                        <div class="result-item">
+                            <span class="result-label">Classification:</span>
+                            <span class="result-value">{{ prediction }}</span>
+                        </div>
+                        
+                        <div class="result-item">
+                            <span class="result-label">Confidence Level:</span>
+                            <div class="confidence-meter">
+                                <div class="meter-bar" style="width: {{ confidence }}%"></div>
+                                <span class="meter-text">{{ confidence }}%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <span class="result-label">Dyslexia Status:</span>
+                            <span class="status-badge {{ 'dyslexic' if is_dyslexic else 'normal' }}">
+                                {{ 'Likely Dyslexic' if is_dyslexic else 'Not Dyslexic' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interpretation">
+                    <h3><i class="fas fa-comment-alt"></i> What This Means</h3>
+                    {% if is_dyslexic %}
+                        <p>The handwriting analysis suggests characteristics commonly associated with dyslexia, such as letter reversals or corrections. We recommend consulting with an educational specialist for further evaluation.</p>
+                    {% else %}
+                        <p>The handwriting analysis doesn't show significant indicators of dyslexia. However, this tool is not a definitive diagnosis and should be used as part of a comprehensive evaluation.</p>
+                    {% endif %}
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="{{ url_for('index') }}" class="btn back-btn">
+                        <i class="fas fa-arrow-left"></i> Analyze Another Sample
+                    </a>
+                    <button class="btn report-btn">
+                        <i class="fas fa-download"></i> Download Full Report
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2023 DyslexiaDetect. This tool is for educational purposes only.</p>
+            <div class="footer-links">
+                <a href="#">About Our Methodology</a>
+                <a href="#">Resources</a>
+                <a href="#">Get Help</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
+
+
